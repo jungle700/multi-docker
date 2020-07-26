@@ -1,0 +1,27 @@
+sudo: required
+services:
+    - docker
+
+
+before install:
+    - docker build -t akeem/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true akeem/react-test npm test 
+
+
+after_success:
+    - docker build -t akeem/multi-client ./client
+    - docker build -t akeem/multi-nginx ./nginx
+    - docker build -t akeem/multi-server ./server
+    - docker build -t akeem/multi-worker ./worker
+
+    #Log in to docker CLI
+
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID"  --password-stdin
+    
+    #Take those images and push to Docker Hub
+    - docker push akeem/multi-client
+    - docker push akeem/multi-nginx
+    - docker push akeem/multi-server
+    - docker push akeem/multi-worker
