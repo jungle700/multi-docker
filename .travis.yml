@@ -25,3 +25,5 @@ after_success:
     - docker push akeem/multi-nginx
     - docker push akeem/multi-server
     - docker push akeem/multi-worker
+
+    # fake push
