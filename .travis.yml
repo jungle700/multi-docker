@@ -4,26 +4,26 @@ services:
 
 
 before install:
-    - docker build -t akeem/react-test -f ./client/Dockerfile.dev ./client
+    - docker build -t jungle700/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-    - docker run -e CI=true akeem/react-test npm test 
+    - docker run -e CI=true jungle700/react-test npm test 
 
 
 after_success:
-    - docker build -t akeem/multi-client ./client
-    - docker build -t akeem/multi-nginx ./nginx
-    - docker build -t akeem/multi-server ./server
-    - docker build -t akeem/multi-worker ./worker
+    - docker build -t jungle700/multi-client ./client
+    - docker build -t jungle700/multi-nginx ./nginx
+    - docker build -t jungle700/multi-server ./server
+    - docker build -t jungle700/multi-worker ./worker
 
     #Log in to docker CLI
 
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID"  --password-stdin
     
     #Take those images and push to Docker Hub
-    - docker push akeem/multi-client
-    - docker push akeem/multi-nginx
-    - docker push akeem/multi-server
-    - docker push akeem/multi-worker
+    - docker push jungle700/multi-client
+    - docker push jungle700/multi-nginx
+    - docker push jungle700/multi-server
+    - docker push jungle700/multi-worker
 
     # fake push
